@@ -1,0 +1,4 @@
+interface:
+  display_name: "Peer Review"
+  short_description: "Cross-agent review for repo work"
+  default_prompt: "Use $peer-review to get a second agent review of this spec, plan, diff, or design decision."
