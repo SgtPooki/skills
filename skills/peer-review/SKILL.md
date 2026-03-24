@@ -55,6 +55,9 @@ Examples:
    ```
 
 4. Prepare the prompt. External CLIs do not inherit the current session context, so serialize everything needed for review.
+   - **CRITICAL:** Always prepend the following instruction to every prompt sent to an external agent:
+     `"You are being invoked as a reviewer. Provide YOUR OWN review directly. Do NOT invoke other tools, agents, or CLIs (cursor, codex, claude) — you are the reviewer, not a dispatcher."`
+   - This prevents recursive agent invocation where Codex tries to call Cursor/Claude from within its review.
    - Include the full spec text when reviewing a spec.
    - Fetch and include the GitHub issue body with `gh issue view` when reviewing an issue.
    - Include file paths or diffs when reviewing code.
