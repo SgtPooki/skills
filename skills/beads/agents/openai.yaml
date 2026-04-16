@@ -1,0 +1,4 @@
+interface:
+  display_name: "Beads"
+  short_description: "Atomic task queue for multi-agent repo work"
+  default_prompt: "Use $beads to find my next task, or $beads init to bootstrap beads in a new repo."
