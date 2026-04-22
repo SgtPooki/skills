@@ -10,8 +10,8 @@ metadata:
 
 Get feedback on specs, plans, code changes, or design decisions from Cursor, Codex, or Claude CLI agents.
 
-Accept arguments in the form `[cursor|codex|claude] <prompt>`.
-- If the first word is exactly `cursor`, `codex`, or `claude` and is followed by non-whitespace text, use only that tool.
+Accept arguments in the form `[cursor|codex|claude|gemini] <prompt>`.
+- If the first word is exactly `cursor`, `codex`, `claude`, or `gemini` and is followed by non-whitespace text, use only that tool.
 - Otherwise, run all available tools in parallel.
 - If no prompt is provided, summarize the current conversation context as the review target.
 
@@ -19,6 +19,7 @@ Examples:
 - `/peer-review cursor Review this spec for completeness`
 - `/peer-review codex What's wrong with this API design?`
 - `/peer-review claude Review this PR for edge cases`
+- `/peer-review gemini Review this architecture for scalability`
 - `/peer-review Review this spec` (sends to all available agents in parallel)
 
 ## Tools available
@@ -29,6 +30,7 @@ Examples:
 | **Claude** | `claude -p` | Deep code review, spec review, architecture analysis |
 | **Codex** | `codex exec` (plans/designs/arbitrary review) | Arbitrary review prompts with codebase context |
 | **Codex** | `codex review --uncommitted` (local code changes only) | Reviewing uncommitted code changes in a repo |
+| **Gemini** | `gemini -p` / `gemini -y --prompt` | Long-context review, architecture review, cross-cutting analysis |
 
 **When to use `codex review` vs `codex exec`:**
 - `codex review --uncommitted` — ONLY when reviewing actual uncommitted changes in the current repo
@@ -125,6 +127,21 @@ Examples:
    Notes:
    - Require `--uncommitted` for working tree review.
    - Use this only for real local diffs, not for conversation content.
+
+   **Gemini** (any review type):
+   ```bash
+   # Short prompts:
+   gemini --approval-mode=yolo -p "Your prompt here"
+
+   # Long prompts (use stdin — `-p` appends to any stdin content):
+   cat "$PROMPT_FILE" | gemini --approval-mode=yolo -p ""
+   ```
+   Notes:
+   - Use `-p/--prompt` for non-interactive mode. Without it, gemini starts an interactive REPL.
+   - Use `--approval-mode=yolo` for non-interactive execution. Do NOT combine with `-y` — the CLI rejects both.
+   - Gemini loads the global `~/.gemini/GEMINI.md`, all `~/.gemini/extensions/*`, and any MCP servers configured in `~/.gemini/settings.json`. If the review should be environment-naked, set `GEMINI_SYSTEM_MD=/path/to/minimal.md` and/or pass `-e` with a narrow extension allowlist.
+   - Model defaults to `gemini-2.5-flash`. Pass `-m auto` to let Gemini pick (usually Pro when available, falls back to Flash on capacity).
+   - Free-tier OAuth shares a capacity pool with other users; sustained high-volume reviews may 429 with `MODEL_CAPACITY_EXHAUSTED`.
 
 6. When running multiple reviews in parallel, use background execution for all Bash calls. Present every completed result even if one review fails.
 
