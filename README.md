@@ -50,3 +50,15 @@ Layer [beads](https://github.com/steveyegge/beads) (`bd`) on top of GitHub Issue
 ```
 
 Enforces a shared multi-agent workflow: set `BEADS_ACTOR` per agent, work each implementation bead in a dedicated `git worktree`, never force-release a stale claim without audit, never put a bead ID as a commit closure reference (`fixes #N` stays canonical).
+
+### dx-audit
+
+Audit the developer experience of a library or tool you maintain across four surfaces — CLI, programmatic library/API, server/service, and GitHub Action — with measurable checks, clean consumer fixtures, and remediation-oriented scoring.
+
+```
+/dx-audit                       # auto-detect surfaces, audit all
+/dx-audit cli api               # audit only the named surfaces
+/dx-audit ../some-other-repo    # audit a checkout elsewhere
+```
+
+Runs in a **static tier** (docs + source + cheap live probes) by default, or a **fixture tier** (clean-room runs of the published artifact against a testnet) for real TTFS/success/error metrics. Tests the **published artifact** (not monorepo source) to catch DX bugs that hide in the gap between them. Writes a scored `report.md`, deterministic `scorecard.json` (via `scripts/score.mjs`), and a prioritized `remediation-plan.md` to a temp dir (`$TMPDIR/dx-audit/<repo>`), never polluting the audited repo. Detailed P0/P1/P2 checklists, metrics, the 0/1/3/5 rubric with `na`-for-scope handling, report templates, and a CI rollout harness live in `references/`.
