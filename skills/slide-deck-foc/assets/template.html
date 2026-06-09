@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DECK TITLE: subtitle</title>
+<!--
+  Single-file slide deck template. Self-contained: inline CSS + JS, no external resources
+  (so it renders offline and from IPFS). Each slide is one <section class="slide">.
+  Keyboard: arrows / space / PageUp-Down navigate, Home / End jump, F toggles fullscreen.
+  The counter reads slides.length, so it stays correct as you add or remove slides.
+  Replace the example slides below. Keep the components; delete what you do not use.
+-->
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: #121a30;
+    --ink: #e8edf7;
+    --muted: #93a1bf;
+    --accent: #2bb9ff;
+    --accent2: #7c5cff;
+    --good: #36d399;
+    --warn: #f6b73c;
+    --line: #243150;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font-family: var(--sans); }
+  .deck { height: 100vh; width: 100vw; overflow: hidden; position: relative; }
+  .slide {
+    position: absolute; inset: 0; display: none;
+    padding: 5vh 7vw; flex-direction: column; justify-content: center;
+    animation: fade .25s ease;
+  }
+  .slide.active { display: flex; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  h1 { font-size: clamp(28px, 4.2vw, 56px); line-height: 1.05; margin: 0 0 18px; letter-spacing: -.02em; }
+  h2 { font-size: clamp(22px, 3vw, 40px); margin: 0 0 22px; letter-spacing: -.02em; }
+  h2 .kicker { display:block; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
+  p { font-size: clamp(16px, 1.5vw, 21px); line-height: 1.5; color: var(--ink); margin: 0 0 14px; max-width: 62ch; }
+  .muted { color: var(--muted); }
+  .big { font-size: clamp(34px, 6vw, 84px); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+  .accent { color: var(--accent); }
+  .accent2 { color: var(--accent2); }
+  .good { color: var(--good); }
+  .warn { color: var(--warn); }
+  .mono { font-family: var(--mono); }
+
+  .formula {
+    font-family: var(--mono); font-size: clamp(15px, 1.9vw, 26px);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 22px; margin: 6px 0 18px; line-height: 1.6; color: var(--ink);
+  }
+  .formula .op { color: var(--muted); }
+
+  table { border-collapse: collapse; width: 100%; font-size: clamp(13px, 1.4vw, 19px); }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; font-size: .8em; letter-spacing: .06em; text-transform: uppercase; }
+  td.num, th.num { text-align: right; font-family: var(--mono); }
+  tr.total td { border-top: 2px solid var(--accent); border-bottom: none; font-weight: 800; }
+  tbody tr:hover { background: rgba(43,185,255,.05); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+  .card .label { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .card .v { font-size: clamp(24px, 3vw, 40px); font-weight: 800; letter-spacing: -.02em; }
+  .card .sub { color: var(--muted); font-size: 14px; margin-top: 6px; }
+
+  ul.tight { margin: 0; padding-left: 1.1em; }
+  ul.tight li { font-size: clamp(15px, 1.5vw, 21px); line-height: 1.5; margin-bottom: 12px; max-width: 62ch; }
+  ul.tight li::marker { color: var(--accent); }
+
+  .footnote { position: absolute; left: 7vw; right: 7vw; bottom: 3.5vh; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .tag { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+  .quote { border-left: 3px solid var(--accent2); padding: 4px 0 4px 18px; color: var(--ink); font-style: italic; max-width: 56ch; }
+
+  .hud { position: fixed; bottom: 16px; right: 20px; font-family: var(--mono); font-size: 13px; color: var(--muted); z-index: 10; }
+  .hud b { color: var(--ink); }
+  .bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); z-index: 10; transition: width .2s; }
+  .nav { position: fixed; bottom: 14px; left: 20px; z-index: 10; display: flex; gap: 8px; }
+  .nav button { background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; font-size: 14px; cursor: pointer; }
+  .nav button:hover { border-color: var(--accent); }
+  .hint { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); color: var(--muted); font-size: 12px; z-index: 10; }
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="deck" id="deck">
+
+  <!-- TITLE -->
+  <section class="slide active">
+    <div class="tag">context / one-line framing</div>
+    <h1>The deck title states the <span class="accent">thesis</span>, not the topic</h1>
+    <p>Lead with what the audience should conclude. One sentence on what this works through and why it matters.</p>
+    <p class="muted">All numbers are illustrative model outputs unless marked otherwise. Sources are in the companion notes.</p>
+    <div class="footnote">Inputs / givens go here so they are visible from slide one.</div>
+  </section>
+
+  <!-- CONTENT: punchline + table + cards -->
+  <section class="slide">
+    <h2><span class="kicker">section label</span>Each slide title is the conclusion</h2>
+    <p>Support the title with the smallest set of numbers that proves it. Right-align numeric cells.</p>
+    <table>
+      <thead><tr><th>Lever</th><th class="num">Low</th><th class="num">Base</th><th class="num">High</th></tr></thead>
+      <tbody>
+        <tr><td>Example metric</td><td class="num">$6M</td><td class="num accent">$11.5M</td><td class="num">$22M</td></tr>
+        <tr class="total"><td>Total</td><td class="num"></td><td class="num">~value</td><td class="num"></td></tr>
+      </tbody>
+    </table>
+    <div class="grid3" style="margin-top:18px">
+      <div class="card"><div class="label">Card label</div><div class="v good">value</div><div class="sub">one-line caveat</div></div>
+      <div class="card"><div class="label">Card label</div><div class="v accent">value</div><div class="sub">one-line caveat</div></div>
+      <div class="card"><div class="label">Card label</div><div class="v warn">value</div><div class="sub">one-line caveat</div></div>
+    </div>
+  </section>
+
+  <!-- DEFINE A KEY VARIABLE on its own slide -->
+  <section class="slide">
+    <h2><span class="kicker">the variable everything rides on</span>Define it before you use it</h2>
+    <p>If one ratio or metric drives the model, give it a slide: plain definition, formula, a worked example, and whether it is measured or assumed.</p>
+    <div class="formula">x <span class="op">=</span> numerator <span class="op">&divide;</span> denominator</div>
+    <p style="margin-top:8px"><b>Why it matters,</b> stated in one line. Flag it: <span class="warn">assumed, not measured</span> until you have the data.</p>
+  </section>
+
+  <!-- ASSUMPTIONS appendix: given vs assumed vs placeholder -->
+  <section class="slide">
+    <h2><span class="kicker">what's given, what's a guess</span>Assumptions behind every number</h2>
+    <table>
+      <thead><tr><th>Input</th><th>Value used</th><th class="num">Status</th></tr></thead>
+      <tbody>
+        <tr><td>Confirmed input</td><td>value</td><td class="num good">given</td></tr>
+        <tr><td>Unmeasured driver</td><td>value</td><td class="num warn">assumed</td></tr>
+        <tr><td>Single data point</td><td>value</td><td class="num warn">n=1</td></tr>
+        <tr><td>Stand-in rate</td><td>value</td><td class="num warn">placeholder</td></tr>
+      </tbody>
+    </table>
+    <div class="footnote"><span class="good">Green</span> = confirmed against source. <span class="warn">Amber</span> = assumed or unverified. Detail in the companion notes.</div>
+  </section>
+
+</div>
+
+<div class="hud"><b id="cur">1</b> / <span id="total">1</span></div>
+<div class="nav"><button onclick="go(-1)">&larr; Prev</button><button onclick="go(1)">Next &rarr;</button></div>
+<div class="hint">&larr; &rarr; or Space to navigate &middot; F for fullscreen</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let i = 0;
+  document.getElementById('total').textContent = slides.length;
+  function render() {
+    slides.forEach((s, n) => s.classList.toggle('active', n === i));
+    document.getElementById('cur').textContent = i + 1;
+    document.getElementById('bar').style.width = ((i + 1) / slides.length * 100) + '%';
+  }
+  function go(d) { i = Math.max(0, Math.min(slides.length - 1, i + d)); render(); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (e.key === 'Home') { i = 0; render(); }
+    else if (e.key === 'End') { i = slides.length - 1; render(); }
+    else if (e.key.toLowerCase() === 'f') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+  render();
+</script>
+</body>
+</html>
