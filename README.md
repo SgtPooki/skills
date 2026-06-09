@@ -51,6 +51,19 @@ Layer [beads](https://github.com/steveyegge/beads) (`bd`) on top of GitHub Issue
 
 Enforces a shared multi-agent workflow: set `BEADS_ACTOR` per agent, work each implementation bead in a dedicated `git worktree`, never force-release a stale claim without audit, never put a bead ID as a commit closure reference (`fixes #N` stays canonical).
 
+### fund-filecoin
+
+Unblock anyone who needs **FIL + USDFC** on Filecoin **mainnet** to pay for Filecoin Onchain Cloud (FOC) storage — filecoin-pin, the Synapse SDK, FilCDN, or anything on Filecoin Pay. A tool-agnostic, human-in-the-loop walkthrough an agent can follow to get both tokens into a wallet, using `cast` (Foundry), web swaps/bridges, or aggregator APIs.
+
+```
+"I need USDFC to use filecoin-pin"
+"fund my Filecoin wallet"
+"swap my USDC to FIL and USDFC"
+"insufficient balance for storage"
+```
+
+Checks existing balances first, then routes to the right path: exchange withdrawal, or the reliable cross-chain shape — **bridge to native FIL (Squid), then swap FIL→USDFC *on* Filecoin (Sushi)** — and hands off to the tool's own Filecoin Pay deposit step. Programmatic `cast` + aggregator-API recipes (with Permit2 handling and recovery from stuck bridges) live in `references/`.
+
 ### dx-audit
 
 Audit the developer experience of a library or tool you maintain across four surfaces — CLI, programmatic library/API, server/service, and GitHub Action — with measurable checks, clean consumer fixtures, and remediation-oriented scoring.
