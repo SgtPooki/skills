@@ -1,0 +1,14 @@
+extends: existence
+message: "Formulaic transition: '%s'. Cut it, or connect the ideas with content."
+level: error
+ignorecase: true
+tokens:
+  - "Additionally,"
+  - "Furthermore,"
+  - "Moreover,"
+  - "In conclusion,"
+  - "In summary,"
+  - "Overall, this"
+  - "To summarize,"
+  - "In essence,"
+  - "Ultimately, this"

@@ -1,0 +1,11 @@
+extends: existence
+message: "Vague quantifier: '%s'. Give the number, version, or date — or cut the claim if you can't source it."
+level: warning
+ignorecase: true
+tokens:
+  - "significantly (?:faster|slower|better|improved|reduced)"
+  - "much (?:faster|slower|better) than"
+  - "many users"
+  - "most (?:users|people|developers) (?:want|need|prefer)"
+  - "in most cases"
+  - recently

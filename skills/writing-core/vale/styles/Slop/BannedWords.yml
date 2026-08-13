@@ -1,0 +1,26 @@
+extends: existence
+message: "AI-smell word: '%s'. Replace with something specific or delete."
+level: error
+ignorecase: true
+tokens:
+  - delve
+  - delves
+  - delving
+  - tapestry
+  - testament
+  - leverages?
+  - leveraging
+  - facilitates?
+  - facilitating
+  - seamless(?:ly)?
+  - holistic(?:ally)?
+  - synerg(?:y|ies|istic)
+  - elevate your
+  - embark(?:ing)? on
+  - game.changer
+  - cutting.edge
+  - "in today's fast.paced"
+  - "ever.evolving"
+  - unlock the (?:power|potential)
+  - "a testament to"
+  - vibrant ecosystem

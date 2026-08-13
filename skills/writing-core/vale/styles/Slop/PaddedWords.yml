@@ -1,0 +1,19 @@
+extends: existence
+message: "Filler word: '%s'. Usually deletable; if the claim needs it, replace with a specific."
+level: warning
+ignorecase: true
+tokens:
+  - robust
+  - comprehensive(?:ly)?
+  - crucial(?:ly)?
+  - pivotal
+  - foster(?:ing)?
+  - streamlined?
+  - "ensure that"
+  - "in order to"
+  - "a wide (?:range|variety) of"
+  - "a number of"
+  - various
+  - numerous
+  - "best practices"
+  - "state.of.the.art"

@@ -1,6 +1,19 @@
+---
+name: github-writing
+description: >-
+  Write GitHub-native tracker and review text: issues, PR descriptions, review
+  comments, and commit messages. Always use with writing-core (it routes,
+  supplies the prose non-negotiables, and provides the writingcheck gate). Do
+  NOT use for persistent docs (writing-docs), decision records (writing-spec),
+  or public announcements/release notes (writing-community).
+---
+
 # GitHub Writing
 
-Write GitHub issues and PR descriptions that are self-contained, specific, and easy to scan.
+Write GitHub issues, PR descriptions, review comments, and commit messages that
+are self-contained, specific, and easy to scan. Language here is
+change-oriented ("Added X", "Fixed Y") — the mirror of writing-docs, which
+describes current state.
 
 ## Goal
 
@@ -18,6 +31,8 @@ Soft length targets:
 3. Keep GitHub focused on the tracker item.
 4. Move long background, evidence, option analysis, and reviewer notes into a linked doc.
 5. Delete filler, repeated context, and private-conversation framing.
+6. Gate before posting: pipe the draft through
+   `python3 <writing-core-skill-path>/scripts/writingcheck.py github-writing -`.
 
 ## Title Rules
 
@@ -41,67 +56,6 @@ Good:
 - Prefer short paragraphs over long bullet walls.
 - Use headings only when they help scanning.
 - Cut bullets already implied by another bullet in the same list. Repetition adds noise unless it adds a new constraint.
-
-## Documentation Voice (docs, READMEs, design notes)
-
-Write for a future reader who has no history of how things used to be and no stake in why the change happened. Apply this to any persistent documentation file, not just PR/issue text.
-
-### Future-oriented, not change-oriented
-
-Documentation describes the system as it is now. It is not a changelog and not a PR description.
-
-- Bad: "We changed the callback names from X to Y to make them consistent."
-- Good: "Progress events use the `onFooStarted` / `onFooComplete` naming pattern."
-- Bad: "Previously the API exposed N callbacks; now it exposes M unified events."
-- Good: "The API exposes M unified progress events listed below."
-
-If contrast with a prior version genuinely helps a reader (e.g., migration guide), put it in a clearly scoped "Migration" or "Upgrading from vN" section. Otherwise cut it.
-
-Before committing docs, re-read each paragraph as your future self with no memory of the change. If a line only makes sense to someone who lived through the diff, delete it.
-
-### Neutral framing of upstream / dependencies
-
-Do not critique upstream projects, SDKs, or dependencies in documentation. It reads as snobbish, ages badly, and creates friction with maintainers and partners.
-
-Avoid:
-- "Upstream did X poorly, so we do Y."
-- "The underlying SDK's design is confusing, which is why we wrap it."
-- "We fix the awkward callback shape from the dependency."
-
-Prefer:
-- State what this project does, in its own terms.
-- If you must reference upstream behavior for technical accuracy, describe it factually: "Synapse emits per-callback events; this library aggregates them into a single progress stream."
-- Describe tradeoffs as design choices for this project, not as corrections to someone else's work.
-
-### Cut change-justification
-
-Lines that exist to justify a decision to reviewers belong in the PR description, commit message, or an ADR — not in user-facing docs. Ask of every sentence: "Would a reader who arrived a year from now care?" If no, remove it.
-
-### Verify before asserting
-
-If a doc states how a tool, compiler, library, or API behaves, the writer must have verified that behavior — by reading the source, running it, or checking authoritative docs. Confident-sounding claims that turn out to be false are worse than no claim at all. If unsure, link to the authoritative reference instead of paraphrasing it.
-
-### Link, don't restate
-
-When the source code, type definition, or API spec is the authoritative truth, link to it rather than copying it into prose. Restated definitions drift from the source and become subtly wrong. Examples and illustrative snippets are fine; verbatim copies of type defs that already live in the repo are not.
-
-## Anti-AI Smell
-
-Avoid:
-- `Additionally`
-- `Furthermore`
-- `It is worth noting`
-- `comprehensive`
-- `robust`
-- `leverages`
-- `facilitates`
-- `ensure`
-- closing summaries that repeat the body
-- symmetrical bullet lists that make every point look equally important
-- headings for one-sentence sections
-- bullet lists with only one item
-
-Em dashes are allowed when they read naturally, but do not use the formula `X — not Y, but Z`.
 
 ## Issue Structure
 
@@ -149,6 +103,34 @@ Commands or reviewer steps.
 
 Only behavior changes, migrations, or uncertainty.
 
+If the PR needs a migration section for consumers, write that section in docs
+voice (state-oriented, scoped "Upgrading from vN") per writing-docs.
+
+## Commit Messages
+
+Follow Chris Beams' rules, plus the repo's own convention:
+
+- Imperative mood in the subject: "Fix retry starvation", never "Fixed" or "Fixes".
+- Subject ≤50 characters where practical; hard-wrap the body at 72.
+- Blank line between subject and body; the body explains what and why, not how.
+- If the repo uses Conventional Commits (`feat:`, `fix:`, `chore:`...), use
+  them with the repo's established types and scopes. Do not introduce the
+  convention into a repo that doesn't use it.
+- Reference issues in the body or footer (`fixes #123`), not the subject.
+
+## Review Comments
+
+Follow Conventional Comments shape without ceremony:
+
+- Lead with a label when it disambiguates: `blocking:` / `non-blocking:` /
+  `question:` / `suggestion:`.
+- Anchor every comment to the exact file/line or observed behavior.
+- State the requested change, not just the objection. "Extract this into a
+  guard clause" beats "this is hard to read".
+- No "maybe consider possibly" hedging. If it matters, say it plainly; if it
+  doesn't block, label it non-blocking.
+- Praise is fine when specific; skip empty "LGTM, great work!" padding.
+
 ## Investigation Rule
 
 Long source or multiple findings → split:
@@ -167,3 +149,4 @@ The GitHub issue should summarize root cause, impact, current workaround, and pr
 - A new reader can act without private context.
 - Long evidence is linked, not pasted.
 - Optional sections are removed before useful context is removed.
+- writingcheck passed (or remaining findings were deliberate).

@@ -1,0 +1,7 @@
+extends: existence
+message: "Formulaic contrast '%s' (the 'not X, but Y' template). Rewrite as a direct statement."
+level: warning
+ignorecase: true
+raw:
+  - '\bnot (?:just|only|merely) \w[^.\n]{0,60}?\bbut (?:also )?'
+  - "— not [^.\\n]{0,40}, but "

@@ -26,11 +26,11 @@ Examples:
 
 | Tool | CLI | Best for |
 |------|-----|----------|
-| **Cursor** | `cursor agent` | UX review, design feedback, architecture, spec review |
+| **Cursor** | `cursor-agent --print` | UX review, design feedback, architecture, spec review |
 | **Claude** | `claude -p` | Deep code review, spec review, architecture analysis |
 | **Codex** | `codex exec` (plans/designs/arbitrary review) | Arbitrary review prompts with codebase context |
 | **Codex** | `codex review --uncommitted` (local code changes only) | Reviewing uncommitted code changes in a repo |
-| **Gemini** | `gemini -p` / `gemini -y --prompt` | Long-context review, architecture review, cross-cutting analysis |
+| **Gemini (Antigravity)** | `agy -p` | Long-context review, architecture review, cross-cutting analysis |
 
 **When to use `codex review` vs `codex exec`:**
 - `codex review --uncommitted` — ONLY when reviewing actual uncommitted changes in the current repo
@@ -45,9 +45,10 @@ Examples:
 
 2. Check prerequisites:
    ```bash
-   which cursor 2>/dev/null  # for cursor reviews
-   which codex 2>/dev/null   # for codex reviews
-   which claude 2>/dev/null  # for claude reviews
+   which cursor-agent 2>/dev/null  # for cursor reviews (NOT `cursor` — that's the GUI/Electron binary)
+   which codex 2>/dev/null         # for codex reviews
+   which claude 2>/dev/null        # for claude reviews
+   which agy 2>/dev/null           # for gemini reviews (Antigravity CLI)
    ```
    Skip missing tools and report them. If every tool is missing, fail.
 
@@ -58,8 +59,8 @@ Examples:
 
 4. Prepare the prompt. External CLIs do not inherit the current session context, so serialize everything needed for review.
    - **CRITICAL:** Always prepend the following instruction to every prompt sent to an external agent:
-     `"You are being invoked as a reviewer. Provide YOUR OWN review directly. Do NOT invoke other tools, agents, or CLIs (cursor, codex, claude) — you are the reviewer, not a dispatcher."`
-   - This prevents recursive agent invocation where Codex tries to call Cursor/Claude from within its review.
+     `"You are being invoked as a reviewer. Provide YOUR OWN review directly. Do NOT delegate by invoking other peer-review CLIs (cursor, codex, gemini, claude) — you ARE the reviewer, not a dispatcher. File-inspection tools (Read, Glob, Grep, Bash for read-only commands like git/ls/cat) are EXPECTED and encouraged — use them to ground your review in actual code."`
+   - This prevents recursive agent invocation (e.g. Codex calling Cursor/Claude from within its review) while making clear that file-inspection tools are not blocked. Without that clarification, reviewers sometimes refuse to read repo files at all and produce ungrounded reviews.
    - Include the full spec text when reviewing a spec.
    - Fetch and include the GitHub issue body with `gh issue view` when reviewing an issue.
    - Include file paths or diffs when reviewing code.
@@ -80,16 +81,18 @@ Examples:
    **Cursor** (any review type):
    ```bash
    # Short prompts:
-   cursor agent --print --trust \
-     --workspace "$REPO_ROOT" "Your prompt here"
+   cd "$REPO_ROOT" && cursor-agent --print --force --output-format text "Your prompt here"
 
    # Long prompts (avoid argv limits — write to temp file first):
-   cursor agent --print --trust \
-     --workspace "$REPO_ROOT" "$(cat "$PROMPT_FILE")"
+   cd "$REPO_ROOT" && cursor-agent --print --force --output-format text "$(cat "$PROMPT_FILE")"
    ```
    Notes:
-   - Use `--print --trust` for non-interactive execution without the GUI.
-   - Use `"$(cat "$PROMPT_FILE")"` for long prompts because Cursor has no stdin mode.
+   - The CLI binary is `cursor-agent`, NOT `cursor`. `cursor` (and `cursor agent`) is the GUI/Electron
+     launcher — it ignores `--print`/`--trust`/`--workspace` (Chromium warns "not in the list of known
+     options") and opens a window instead of producing review output. Always use `cursor-agent`.
+   - Use `--print` for non-interactive execution; `--force` auto-approves tool use so it doesn't block.
+   - `cursor-agent` operates on the current working directory, so `cd "$REPO_ROOT"` first (no `--workspace` flag).
+   - Use `"$(cat "$PROMPT_FILE")"` for long prompts because cursor-agent has no stdin mode.
    - If the prompt exceeds about 100 KB, send a summary plus a pointer to the temp file.
 
    **Claude** (any review type):
@@ -128,20 +131,29 @@ Examples:
    - Require `--uncommitted` for working tree review.
    - Use this only for real local diffs, not for conversation content.
 
-   **Gemini** (any review type):
+   **Gemini** (via the Antigravity `agy` CLI — any review type):
    ```bash
    # Short prompts:
-   gemini --approval-mode=yolo -p "Your prompt here"
+   cd "$REPO_ROOT" && agy -p "Your prompt here" \
+     --model "Gemini 3.1 Pro (High)" --dangerously-skip-permissions --print-timeout 8m
 
-   # Long prompts (use stdin — `-p` appends to any stdin content):
-   cat "$PROMPT_FILE" | gemini --approval-mode=yolo -p ""
+   # Long prompts (use stdin — pass `-` as the prompt argument):
+   cd "$REPO_ROOT" && cat "$PROMPT_FILE" | agy -p - \
+     --model "Gemini 3.1 Pro (High)" --dangerously-skip-permissions --print-timeout 8m
    ```
    Notes:
-   - Use `-p/--prompt` for non-interactive mode. Without it, gemini starts an interactive REPL.
-   - Use `--approval-mode=yolo` for non-interactive execution. Do NOT combine with `-y` — the CLI rejects both.
-   - Gemini loads the global `~/.gemini/GEMINI.md`, all `~/.gemini/extensions/*`, and any MCP servers configured in `~/.gemini/settings.json`. If the review should be environment-naked, set `GEMINI_SYSTEM_MD=/path/to/minimal.md` and/or pass `-e` with a narrow extension allowlist.
-   - Model defaults to `gemini-2.5-flash`. Pass `-m auto` to let Gemini pick (usually Pro when available, falls back to Flash on capacity).
-   - Free-tier OAuth shares a capacity pool with other users; sustained high-volume reviews may 429 with `MODEL_CAPACITY_EXHAUSTED`.
+   - The standalone `gemini` CLI (`@google/gemini-cli`) is deprecated: its free-tier OAuth now fails with
+     `IneligibleTierError` ("no longer supported for Gemini Code Assist for individuals … migrate to
+     Antigravity"). Use `agy` instead — it's the Antigravity terminal agent and authenticates through the
+     Antigravity app. (The `antigravity` command itself is the GUI/Electron IDE launcher, not a headless
+     agent — don't use it for reviews.)
+   - `agy -p`/`--print`/`--prompt` runs a single prompt non-interactively and prints the response. `-p -`
+     reads the prompt from stdin (use for long prompts).
+   - `--dangerously-skip-permissions` auto-approves tool/permission requests so the run doesn't block on a
+     prompt; `agy` runs against the current working directory, so `cd "$REPO_ROOT"` first (or pass `--add-dir`).
+   - Pick a model with `--model` using its display name from `agy models` (e.g. `"Gemini 3.1 Pro (High)"`,
+     `"Gemini 3.5 Flash (High)"`; Claude and GPT-OSS models are also offered). Default is a Flash tier.
+   - Print mode waits up to `--print-timeout` (default 5m); raise it for large diffs/specs.
 
 6. When running multiple reviews in parallel, use background execution for all Bash calls. Present every completed result even if one review fails.
 

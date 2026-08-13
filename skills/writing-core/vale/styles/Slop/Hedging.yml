@@ -1,0 +1,16 @@
+extends: existence
+message: "Hedging/throat-clearing: '%s'. State the point directly or cut the sentence."
+level: error
+ignorecase: true
+tokens:
+  - "it is worth noting"
+  - "it's worth noting"
+  - "it should be noted"
+  - "it is important to (?:note|remember|understand)"
+  - "it's important to (?:note|remember|understand)"
+  - "keep in mind that"
+  - "generally speaking"
+  - "at the end of the day"
+  - "needless to say"
+  - "as (?:you|we) can see"
+  - "as mentioned (?:above|earlier|previously)"
