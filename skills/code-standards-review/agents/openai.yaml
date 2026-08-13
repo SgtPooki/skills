@@ -1,0 +1,8 @@
+interface:
+  display_name: "Code Standards Review"
+  short_description: "Review code changes against repo-aware standards."
+  default_prompt: >-
+    Review this change against repo standards. Return PASS / PASS WITH
+    CONCERNS / FAIL with evidence-backed findings, following
+    references/report-contract.md (gate mode for PRs, quick mode for local
+    work). Standards review, not a bug hunt.
