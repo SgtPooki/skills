@@ -43,8 +43,9 @@ The community/marketing edge: text that speaks as the project to people who
 already follow it (release note, status update) is `writing-community`; text
 that must convert strangers into users or customers (launch copy, promo
 thread, pitch) is `writing-marketing`. A launch announcement aimed at both
-uses `writing-community` structure with `writing-marketing`'s hook and
-positioning rules.
+defaults to `writing-community` alone; add `writing-marketing` as a
+persuasion pass (section 4) only when the user asks to reach or convert
+strangers with it — never auto-load it at route time.
 
 If unsure: **artifact purpose beats delivery mechanism.** An RFC posted as a
 GitHub issue is an RFC — use `writing-spec`. A security advisory is an
@@ -125,19 +126,41 @@ English-only.
 
 ## 4. Composition and precedence
 
-The skills compose: exactly one scenario skill owns structure, and overlays
-stack on top, applied in any order across iterative passes. "Draft it for
-GitHub" → "now do it in my voice" → "make it a little more salesy" is the
-intended workflow — each pass edits the same draft, and the gate runs after
-every pass.
+The skills compose: exactly one scenario skill owns structure, and editing
+passes apply on top of the same draft. "Draft it for GitHub" → "make it a
+little more salesy" → "now do it in my voice" is the intended workflow. Run
+passes in this sequence, as distinct sequential edits — never combined into
+one generation step:
 
-- The scenario skill owns document structure and section templates.
-- The author-voice overlay, when active, owns punctuation and idiom; its rules
-  win over scenario-skill style on conflict.
-- `writing-marketing` applied as a persuasion pass on another scenario's draft
-  (only on request) contributes hook, specificity, and its honesty rules — the
-  base scenario keeps its structure and remains the writingcheck `<scenario>`.
-- This skill's non-negotiables (step 2) apply everywhere.
+1. **Base scenario** drafts the structure.
+2. **Persuasion pass** (`writing-marketing`) — only when the user explicitly
+   asks for one; see that skill's pass-mode rules.
+3. **Author-voice pass** — always last, so idiom and mechanical compliance
+   are final.
+4. **Gate.** The base scenario stays the writingcheck `<scenario>` throughout;
+   add `--overlay my-voice` when the author-voice overlay is active. In pass
+   mode the checker does NOT run the `Marketing.*` rules, so after a
+   persuasion pass also apply the marketing honesty checklist manually (no
+   manufactured urgency, invented scarcity, unverifiable proof, hype, or
+   supplication).
+
+If the user requests passes out of order (e.g. "salesy" after a voice pass),
+run the requested edit, then repeat the author-voice pass and re-gate — voice
+finishes last. Apply each requested pass once, re-gate, and stop; don't keep
+cycling passes without a new user request.
+
+Precedence when passes conflict, highest to lowest:
+
+1. This skill's non-negotiables (step 2) — no pass may override them.
+2. Base scenario structure and section templates — a persuasion pass edits
+   prose in place and never restructures.
+3. Marketing honesty and specificity rules.
+4. Author-voice punctuation and idiom — wins over scenario and marketing
+   *style*, never over structure, facts, or the honesty rules.
+
+Terminology: "overlay" as a checker flag means only `--overlay my-voice`. A
+persuasion pass is an editing pass, not a checker overlay, and never changes
+`<scenario>`.
 
 ## References (load on demand)
 
