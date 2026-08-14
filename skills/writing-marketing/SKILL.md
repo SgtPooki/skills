@@ -4,11 +4,14 @@ description: >-
   Write persuasion-first broadcast copy: sales pitches and pitch emails, cold
   outreach, X/Twitter promotional posts and threads, landing/launch copy, and
   replies courting a prospect. Always use with writing-core (it routes,
-  supplies the prose non-negotiables, and provides the writingcheck gate). Do
-  NOT use for docs (writing-docs), tracker text (github-writing), decision
-  records (writing-spec), or project release notes (writing-community). When
-  the user signs the message personally, add their author-voice overlay (e.g.
-  my-voice).
+  supplies the prose non-negotiables, and provides the writingcheck gate).
+  Not the base scenario for docs (writing-docs), tracker text
+  (github-writing), decision records (writing-spec), or project release notes
+  (writing-community) — but on request ("make this more salesy") it layers as
+  a persuasion pass over any of them: the base scenario keeps structure and
+  the gate; this skill contributes hook, specificity, and its honesty rules.
+  When the user signs the message personally, add their author-voice overlay
+  (e.g. my-voice).
 ---
 
 # Marketing writing
@@ -287,6 +290,24 @@ every claim survives the reader fact-checking it, every scarcity/proof
 statement is literally true, and — for cold email — the compliance preflight
 in `references/cold-email-compliance.md` passed (jurisdiction, address,
 opt-out, truthful headers).
+
+## As a persuasion pass on another scenario
+
+When the user asks to make an existing draft "more salesy" (a PR description,
+a release note, a README intro), this skill runs as an overlay, not the base
+scenario:
+
+- The base scenario keeps its structure, section templates, and its
+  writingcheck `<scenario>` — don't restructure the artifact into marketing
+  shape.
+- Contribute the transferable layer: sharpen the opening into a real hook
+  (BLUF that sells the *why-care*, not a slogan), convert vague benefits to
+  measured specifics, cut supplication and hype, and surface the one claim
+  the piece should own.
+- The honesty boundary applies in full — a "salesy" pass never adds urgency,
+  proof, or claims the base draft couldn't back.
+- Re-gate after the pass; add the author-voice overlay when the user
+  publishes it themselves.
 
 ## Reserved: conversational selling
 

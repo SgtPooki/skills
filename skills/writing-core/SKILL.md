@@ -16,9 +16,13 @@ description: >-
 
 Answer two questions before drafting:
 
-**Who is the attributed author?** If the text is sent or signed by the user
-personally, add their author-voice skill (e.g. a personal `my-voice` skill) as
-an overlay. If the text speaks for the project or repo, do not.
+**Who is the attributed author?** If the text is sent, signed, or published
+from the user's own account — including project-neutral artifacts like PR
+descriptions and issue bodies — add their author-voice skill (e.g. a personal
+`my-voice` skill) as an overlay. Its mechanical rules (punctuation, emoji)
+apply to everything they publish; its voice-register rules follow the
+artifact's register. Skip the overlay only for text another account or bot
+publishes on the project's behalf.
 
 **What is the artifact?** Pick exactly one scenario skill:
 
@@ -119,11 +123,20 @@ Scope notes: the checker's built-in `--overlay` supports only `my-voice`
 (single-tenant, not a plugin system). The rules and word lists are
 English-only.
 
-## 4. Precedence
+## 4. Composition and precedence
+
+The skills compose: exactly one scenario skill owns structure, and overlays
+stack on top, applied in any order across iterative passes. "Draft it for
+GitHub" → "now do it in my voice" → "make it a little more salesy" is the
+intended workflow — each pass edits the same draft, and the gate runs after
+every pass.
 
 - The scenario skill owns document structure and section templates.
 - The author-voice overlay, when active, owns punctuation and idiom; its rules
   win over scenario-skill style on conflict.
+- `writing-marketing` applied as a persuasion pass on another scenario's draft
+  (only on request) contributes hook, specificity, and its honesty rules — the
+  base scenario keeps its structure and remains the writingcheck `<scenario>`.
 - This skill's non-negotiables (step 2) apply everywhere.
 
 ## References (load on demand)
