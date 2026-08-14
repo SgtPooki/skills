@@ -65,10 +65,8 @@ Default audience dial: spec → expert, docs/github → developer, community →
   one-sentence sections. The linter enforces the concrete word list — see
   step 3.
 - **Hedges split two ways.** Epistemic hedges carry information ("untested on
-  Windows", "as of v2.3", "in most configurations") — keep them; deleting one
-  to sound confident is a correctness bug. Reflexive hedges are tics
-  ("arguably", "it could be said") — cut them. Never delete an epistemic hedge
-  to satisfy the linter; rewrite around it.
+  Windows", "as of v2.3") — keep them; deleting one is a correctness bug.
+  Reflexive hedges are tics ("arguably") — cut them, never the epistemic kind.
 
 Before running the checker on a full draft, do the one-pass tightening in
 `references/revision-pass.md` — it fixes mechanically what the linter can only

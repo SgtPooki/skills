@@ -10,7 +10,7 @@ Per paragraph:
 
 1. Mark the prepositions (*of, in, for, by, into, onto*). Three or more in one
    clause means the action is hiding in a noun.
-2. Mark the *to be* forms (is, are, was, be, been).
+2. Mark the *to be* forms (is, are, was, were, be, been, being).
 3. Ask: where's the action? Who is doing it?
 4. Put that actor in the subject and the action in a simple active verb.
    "Validation of the manifest is performed by the loader" → "The loader

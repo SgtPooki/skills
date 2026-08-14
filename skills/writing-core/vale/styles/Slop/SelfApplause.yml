@@ -2,6 +2,8 @@ extends: existence
 message: "Self-applause: '%s'. Delete the clause — the point must stand on its own; if it doesn't, strengthen the point, not the applause."
 level: warning
 ignorecase: true
-tokens:
-  - "and that matters"
-  - "which is exactly the point"
+# Single raw alternation — Vale concatenates raw list entries into one regex.
+# 'and that matters' needs a preceding clause boundary: bare substring matching
+# false-positives on coordination ("Redis and that matters for sessions").
+raw:
+  - "(?:[,;:—–-] ?and (?:that|this) matters\\b|which is exactly the point\\b)"
