@@ -1,0 +1,18 @@
+extends: existence
+message: "Unverifiable hype: '%s'. Replace with a measured fact, named source, or named mechanism — generalities are discounted on sight."
+level: error
+ignorecase: true
+tokens:
+  - industry.leading
+  - best.in.class
+  - world.class
+  - state.of.the.art
+  - revolutionary
+  - blazing(?:ly)?.fast
+  - lightning.fast
+  - trusted by (?:thousands|millions|teams)
+  - loved by (?:thousands|millions|users)
+  - experts agree
+  - next.level
+  - supercharge
+  - skyrocket

@@ -1,0 +1,7 @@
+extends: existence
+message: "Scarcity claim: '%s'. Allowed only when true, numbered, and explained ('3 of 10 pilot seats left because onboarding is hands-on') — otherwise delete."
+level: warning
+ignorecase: true
+tokens:
+  - limited (?:spots?|seats?|availability)
+  - only \d+ (?:spots?|seats?|slots?) left

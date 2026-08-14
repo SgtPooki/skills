@@ -1,0 +1,14 @@
+extends: existence
+message: "Manufactured urgency: '%s'. Urgency must be real, dated, and explainable ('price changes March 1 because...') or deleted."
+level: error
+ignorecase: true
+tokens:
+  - act (?:fast|now)
+  - don['’]?t miss (?:out|this)
+  - limited time
+  - last chance
+  - hurry
+  - before it['’]?s too late
+  - spots? (?:are )?filling (?:up )?fast
+  - while supplies last
+  - once.in.a.lifetime
