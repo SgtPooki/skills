@@ -12,7 +12,8 @@ Usage:
     python3 <skill-path>/scripts/writingcheck.py --selftest
 
 Scenarios (must match a layer-2 writing skill name):
-    writing-docs | github-writing | writing-spec | writing-community
+    writing-docs | github-writing | writing-spec | writing-community |
+    writing-marketing
     core   (fallback when no layer-2 skill applies)
 
 Options:
@@ -55,7 +56,12 @@ SCENARIOS = (
     "github-writing",
     "writing-spec",
     "writing-community",
+    "writing-marketing",
 )
+
+# Style dirs the reduced (Vale-less) lexical scan applies, per scenario.
+FALLBACK_STYLES = {"writing-marketing": ("Slop", "Marketing")}
+DEFAULT_FALLBACK_STYLES = ("Slop",)
 
 VALE_INSTALL_HINT = (
     "vale not found. Install: `brew install vale` (macOS) or "
@@ -118,7 +124,7 @@ def run_vale(scenario: str, text: str, path: Path | None) -> tuple[list[dict], s
     """
     vale = shutil.which("vale")
     if not vale:
-        return fallback_lexical(text), "reduced"
+        return fallback_lexical(scenario, text), "reduced"
     tmp_path, cleanup = path, False
     if tmp_path is None:
         try:
@@ -130,7 +136,7 @@ def run_vale(scenario: str, text: str, path: Path | None) -> tuple[list[dict], s
             tmp_path, cleanup = Path(tmp.name), True
         except OSError:
             print("VALE_TEMP_UNAVAILABLE: no writable temp dir; reduced checks.", file=sys.stderr)
-            return fallback_lexical(text), "reduced"
+            return fallback_lexical(scenario, text), "reduced"
     config = VALE_DIR / f"{scenario}.ini"
     proc = subprocess.run(
         [vale, "--config", str(config), "--output=JSON", str(tmp_path)],
@@ -142,7 +148,7 @@ def run_vale(scenario: str, text: str, path: Path | None) -> tuple[list[dict], s
     # Vale: 0 = clean, 1 = alerts found; anything else is a Vale failure.
     if proc.returncode not in (0, 1):
         print(f"VALE_ERROR (exit {proc.returncode}): {proc.stderr.strip()[:300]}", file=sys.stderr)
-        return fallback_lexical(text), "reduced"
+        return fallback_lexical(scenario, text), "reduced"
     findings = []
     if proc.stdout.strip():
         try:
@@ -153,7 +159,7 @@ def run_vale(scenario: str, text: str, path: Path | None) -> tuple[list[dict], s
                     )
         except (json.JSONDecodeError, KeyError, TypeError):
             print("VALE_ERROR: unparseable Vale output; reduced checks.", file=sys.stderr)
-            return fallback_lexical(text), "reduced"
+            return fallback_lexical(scenario, text), "reduced"
     return findings, "full"
 
 
@@ -186,13 +192,18 @@ def load_slop_rule(rule_file: Path) -> dict:
         return rule
 
 
-def fallback_lexical(text: str) -> list[dict]:
-    """Reduced lexical scan when Vale is unavailable: apply the Slop style's
-    rules directly so the rule source stays single-sourced."""
+def fallback_lexical(scenario: str, text: str) -> list[dict]:
+    """Reduced lexical scan when Vale is unavailable: apply the scenario's
+    flat style rules directly so the rule source stays single-sourced."""
     findings = []
     prose, _ = strip_code(text)
     lines = prose.splitlines()
-    for rule_file in sorted((VALE_DIR / "styles" / "Slop").glob("*.yml")):
+    style_dirs = FALLBACK_STYLES.get(scenario, DEFAULT_FALLBACK_STYLES)
+    rule_files = [
+        (style, f) for style in style_dirs
+        for f in sorted((VALE_DIR / "styles" / style).glob("*.yml"))
+    ]
+    for style, rule_file in rule_files:
         rule = load_slop_rule(rule_file)
         regexes = []
         if rule.get("tokens"):
@@ -209,7 +220,7 @@ def fallback_lexical(text: str) -> list[dict]:
                     findings.append(
                         finding(
                             i,
-                            f"Slop.{rule_file.stem}",
+                            f"{style}.{rule_file.stem}",
                             f"matched '{m.group(0)}'",
                             rule.get("level", "error"),
                         )
@@ -465,6 +476,13 @@ def check(scenario: str, text: str, path: Path | None, overlay: str | None) -> t
 # that silently stop matching (e.g. a Vale raw-list regex breaking on merge).
 EXPECTED_CHECKS = {
     "core-fail.md": {"Slop.Hedging", "Slop.SelfApplause", "Slop.NotXButY"},
+    "writing-marketing-fail.md": {
+        "Marketing.Supplication",
+        "Marketing.FakeUrgency",
+        "Marketing.UnverifiableHype",
+        "Marketing.NegativeProof",
+        "Marketing.ScarcityClaim",
+    },
 }
 
 

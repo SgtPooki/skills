@@ -96,3 +96,40 @@ templates are academic register — don't lift them). Le Guin's *Steering the
 Craft* backs the read-aloud test and one-name-per-concept repetition. Becker,
 Sword, and Schimel: hedging as defensive armor, the stated-vs-enacted gap
 that justifies a checker, and the OCAR overclaim guard.
+
+## Persuasion and marketing (writing-marketing)
+
+The persuasion canon behind `writing-marketing`; per-source rule extractions
+with citations live in `skills/writing-marketing/references/`.
+
+- Hopkins, *Scientific Advertising*, 1923; Caples, *Tested Advertising
+  Methods* — specificity over superlatives, headline laws, tested
+  winners/losers. `direct-response.md`.
+- Schwartz, *Breakthrough Advertising*, 1966 — awareness stages, market
+  sophistication, intensification, belief chains. `awareness-stages.md`.
+- Cialdini, *Influence*, 1984/2021 — the 7 principles with backfire
+  conditions; smuggler-vs-detective ethics. `persuasion-principles.md`.
+- Ries & Trout, *Positioning*, 1981 — category, one owned word, the ladder.
+  `positioning.md`.
+- Halbert, *The Boron Letters*; Sugarman, *The Adweek Copywriting Handbook* —
+  A-pile mechanics, slippery slide, triggers. `cold-outreach.md`.
+- Heath & Heath, *Made to Stick*, 2007; Berger, *Contagious*, 2013 — SUCCESs
+  and STEPPS; stickiness and shareability. `stickiness-virality.md`.
+- Klaff, *Pitch Anything*, 2011 — frame control, prizing, anti-supplication
+  (used with stated evidence caveats). `frame-control.md`.
+- Ogilvy, *Confessions of an Advertising Man*, 1963; *Ogilvy on
+  Advertising*, 1983 — research-first big ideas, respect-the-reader, brand
+  compounding, landing-page layout. `ogilvy.md`.
+- Collier, *The Robert Collier Letter Book*, 1931 — enter the reader's mental
+  conversation; measured five-touch sequences. `collier-letters.md`.
+- Dunford, *Obviously Awesome*, 2019 — positioning as context-setting; the
+  modern B2B correction to Ries & Trout. `dunford-positioning.md`.
+- Sharp, *How Brands Grow*, 2010 (Ehrenberg-Bass) — mental availability,
+  distinctive assets, light buyers; correction layer with stated B2C-data
+  caveats. `brand-growth.md`.
+- Current-law and platform references (CAN-SPAM/GDPR/PECR/CASL, Gmail sender
+  requirements, Show HN guidelines) — `cold-email-compliance.md`,
+  `platform-norms.md`; date-stamped, verify before quoting.
+- Greene, *The Art of Seduction*, 2001 — anti-seducer anti-patterns and the
+  encode/reject ethical split; only disclosure-surviving mechanisms encoded.
+  `seduction-transfer.md`.

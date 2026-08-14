@@ -76,7 +76,7 @@ Audit the developer experience of a library or tool you maintain across four sur
 
 Runs in a **static tier** (docs + source + cheap live probes) by default, or a **fixture tier** (clean-room runs of the published artifact against a testnet) for real TTFS/success/error metrics. Tests the **published artifact** (not monorepo source) to catch DX bugs that hide in the gap between them. Writes a scored `report.md`, deterministic `scorecard.json` (via `scripts/score.mjs`), and a prioritized `remediation-plan.md` to a temp dir (`$TMPDIR/dx-audit/<repo>`), never polluting the audited repo. Detailed P0/P1/P2 checklists, metrics, the 0/1/3/5 rubric with `na`-for-scope handling, report templates, and a CI rollout harness live in `references/`.
 
-### writing-core (+ writing-docs, writing-spec, writing-community, github-writing)
+### writing-core (+ writing-docs, writing-spec, writing-community, github-writing, writing-marketing)
 
 A family of writing skills for agent-drafted prose. `writing-core` is the always-on layer: it routes to the right scenario skill, sets the audience dial, and gates every draft through `scripts/writingcheck.py` — a Vale-backed linter (vendored configs, error-only blocking) plus structural checks for AI tells like single-bullet lists and closing summaries.
 
@@ -86,6 +86,7 @@ writing-docs        persistent docs: README, tutorial, how-to, reference (Diáta
 github-writing      issues, PR descriptions, review comments, commit messages (change-oriented)
 writing-spec        ADRs, RFCs, requirements (MADR, testable requirements, C4 — mode-gated)
 writing-community   release notes, announcements, changelogs (changelog-first, breaking changes surfaced twice)
+writing-marketing   persuasion copy: pitches, cold email, promo posts (awareness stages, honest-persuasion gate)
 ```
 
 Check any draft:

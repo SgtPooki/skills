@@ -28,11 +28,19 @@ an overlay. If the text speaks for the project or repo, do not.
 | Persistent doc: README, tutorial, how-to, reference, migration guide | `writing-docs` |
 | ADR, RFC, design spec, requirements — anything that records or constrains a decision, even when stored under `docs/` | `writing-spec` |
 | Release note, announcement, changelog, project status post | `writing-community` |
+| Persuasion copy: sales pitch, cold email, promo post/thread, landing/launch copy, prospect reply | `writing-marketing` |
 
 Edge rules: a doc that *explains current behavior* is `writing-docs` even if it
 lives next to ADRs; a doc that *records a decision* is `writing-spec` even if it
 lives under `docs/`. Migration guides are `writing-docs` (their Migration
 section is the one place change-oriented language is allowed there).
+
+The community/marketing edge: text that speaks as the project to people who
+already follow it (release note, status update) is `writing-community`; text
+that must convert strangers into users or customers (launch copy, promo
+thread, pitch) is `writing-marketing`. A launch announcement aimed at both
+uses `writing-community` structure with `writing-marketing`'s hook and
+positioning rules.
 
 If unsure: **artifact purpose beats delivery mechanism.** An RFC posted as a
 GitHub issue is an RFC — use `writing-spec`. A security advisory is an
@@ -89,7 +97,8 @@ echo "$DRAFT" | python3 <writing-core-skill-path>/scripts/writingcheck.py github
 ```
 
 `<scenario>` is the scenario skill name (`writing-docs`, `github-writing`,
-`writing-spec`, `writing-community`), or `core` if none matched. The checker
+`writing-spec`, `writing-community`, `writing-marketing`), or `core` if none
+matched. The checker
 uses Vale with vendored configs when available and falls back to reduced checks
 (reported as `VALE_MISSING` / "reduced checks" in the verdict line) when not —
 it never silently skips.

@@ -1,0 +1,20 @@
+extends: existence
+message: "Supplicating phrase: '%s'. State the offer and the decision fork plainly — neediness kills replies."
+level: error
+ignorecase: true
+tokens:
+  - just (?:checking in|following up|wanted to|circling back)
+  - sorry to bother
+  - any chance you could
+  - would it be at all possible
+  - whenever you get a chance
+  - no rush at all
+  - at your convenience
+  - "i['’]?d love the opportunity"
+  - it would mean a lot
+  - (?:hoping to )?pick your brain
+  - no worries if not
+  - "i know you['’]?re busy"
+  - even (?:just )?\d+ minutes
+  - does (?:this|that) make sense\?
+  - let me know your thoughts

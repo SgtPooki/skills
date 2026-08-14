@@ -1,0 +1,9 @@
+extends: existence
+message: "Negative social proof: '%s'. As social proof this normalizes the bad behavior (Petrified Forest effect) — invert to the positive norm. Keep only as sourced problem diagnosis paired with the desired norm."
+level: warning
+ignorecase: true
+tokens:
+  - most (?:people|teams|developers|founders|companies) (?:still )?(?:ignore|get this wrong|don['’]?t)
+  - hardly anyone
+  - nobody (?:is )?talking about
+  - "\\d+% of (?:people|teams|developers) (?:get this wrong|fail|don['’]?t)"
