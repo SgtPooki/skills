@@ -8,13 +8,13 @@ description: >-
   Do NOT select for docs (writing-docs), tracker text (github-writing),
   decision records (writing-spec), or project release notes
   (writing-community) unless the user EXPLICITLY asks for a
-  persuasion/sales/conversion pass on an existing draft ("more salesy", "more
-  persuasive", "stronger hook", "position this better") — then it runs in
-  pass mode: the base scenario keeps structure and the gate; this skill
-  contributes hook, specificity, and its honesty rules. Ambiguous requests
-  ("improve", "make it compelling", "polish") keep the base scenario only.
-  When the user signs the message personally, add their author-voice overlay
-  (e.g. my-voice).
+  persuasion/sales/conversion pass ("more salesy", "more persuasive",
+  "stronger hook", "position this better", "sell it harder") on an existing
+  or newly created base draft — then it runs in pass mode: the base scenario
+  keeps structure and the gate; this skill contributes hook, specificity, and
+  its honesty rules. Ambiguous requests ("improve", "make it compelling",
+  "engaging", "polish") keep the base scenario only.
+  When the user signs the message personally, add their author-voice overlay.
 ---
 
 # Marketing writing
@@ -277,12 +277,14 @@ Three positioning layers, load as needed:
 ## Pass mode: persuasion pass on another scenario's draft
 
 Activate only when the user explicitly asks for a persuasion/sales/conversion
-pass on an existing draft ("more salesy", "stronger hook", "sell it harder").
-Do not infer it from "compelling", "engaging", or "polish". In pass mode, use
-ONLY this section plus the honesty boundary and persuasion laws 1–3 — do not
-load the channel playbooks, the awareness/sophistication dials, or any
-section-ordering rules; those are for base-scenario work and will restructure
-the artifact.
+pass ("more salesy", "more persuasive", "stronger hook", "position this
+better", "sell it harder") on an existing draft — or asks for one up front
+("write a salesy PR description"), in which case draft with the base scenario
+first, then apply this pass. Do not infer it from "improve", "make it
+compelling", "engaging", or "polish". In pass mode, use ONLY this section
+plus the honesty boundary and persuasion laws 1–4 — do not load the channel
+playbooks, the awareness/sophistication dials, or any section-ordering rules;
+those are for base-scenario work and will restructure the artifact.
 
 - Edit prose in place. Preserve every section header and template element of
   the base artifact; add no headline, CTA block, sales narrative, testimonial,
@@ -295,7 +297,7 @@ the artifact.
   proof, or claims not already supported by cited evidence, source
   inspection, or user-provided facts.
 - Gate with the BASE scenario (not `writing-marketing`), adding
-  `--overlay my-voice` when active. The checker doesn't run `Marketing.*`
+  `--overlay author-voice` when active. The checker doesn't run `Marketing.*`
   rules in this mode, so walk the honesty checklist manually: no manufactured
   urgency, no invented scarcity, no unverifiable proof, no hype, no
   supplication.

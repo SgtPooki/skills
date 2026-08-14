@@ -17,7 +17,7 @@ Scenarios (must match a layer-2 writing skill name):
     core   (fallback when no layer-2 skill applies)
 
 Options:
-    --overlay my-voice   Add the built-in author-voice idiom checks
+    --overlay author-voice   Add the built-in author-voice idiom checks
                          (em-dash ban, no emoji). This is the only overlay
                          the checker ships; it is not a plugin system.
     --json               Machine-readable output (includes "mode":
@@ -443,7 +443,7 @@ def overlay_checks(overlay: str, text: str) -> list[dict]:
     """Built-in author-voice idiom checks (the only overlay shipped). Generic
     rules only — the personal voice profile itself lives outside this repo."""
     findings = []
-    if overlay != "my-voice":
+    if overlay != "author-voice":
         return findings
     prose, _ = strip_code(text)
     for i, line in enumerate(prose.splitlines(), 1):
@@ -510,7 +510,7 @@ def selftest_subprocess_paths() -> int:
     cases = [
         ("stdin pipe", ["python3", script, "github-writing", "-"], "Fixed the retry test.\n", 0, None),
         ("stdin slop", ["python3", script, "core", "-"], "This delves into things.\n", 1, None),
-        ("overlay em-dash", ["python3", script, "core", "-", "--overlay", "my-voice"], "A line — with a dash.\n", 1, None),
+        ("overlay em-dash", ["python3", script, "core", "-", "--overlay", "author-voice"], "A line — with a dash.\n", 1, None),
         ("vale-missing", ["python3", script, "core", "-"], "This delves into things.\n", 1, "/usr/bin:/bin"),
     ]
     failures = 0
@@ -574,7 +574,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("scenario", nargs="?", choices=SCENARIOS)
     ap.add_argument("input", nargs="?", help="file path, or '-' for stdin")
-    ap.add_argument("--overlay", choices=["my-voice"], help="built-in author-voice overlay (single-tenant)")
+    ap.add_argument("--overlay", choices=["author-voice"], help="built-in author-voice overlay (single-tenant)")
     ap.add_argument("--json", action="store_true", dest="as_json")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
