@@ -461,6 +461,13 @@ def check(scenario: str, text: str, path: Path | None, overlay: str | None) -> t
     return findings, mode
 
 
+# Fail fixtures must also surface these checks (any severity) — catches rules
+# that silently stop matching (e.g. a Vale raw-list regex breaking on merge).
+EXPECTED_CHECKS = {
+    "core-fail.md": {"Slop.Hedging", "Slop.SelfApplause", "Slop.NotXButY"},
+}
+
+
 def run_fixture(fixture: Path) -> tuple[bool, list[dict]]:
     m = re.match(r"(.+)-(pass|fail)$", fixture.stem)
     if not m:
@@ -471,6 +478,10 @@ def run_fixture(fixture: Path) -> tuple[bool, list[dict]]:
     findings, _ = check(scenario, fixture.read_text(encoding="utf-8"), fixture, None)
     errors = [f for f in findings if f["severity"] == "error"]
     ok = bool(errors) if expected == "fail" else not errors
+    missing = EXPECTED_CHECKS.get(fixture.name, set()) - {f["check"] for f in findings}
+    if missing:
+        ok = False
+        errors = errors + [finding(0, c, "expected check never fired") for c in sorted(missing)]
     return ok, errors
 
 

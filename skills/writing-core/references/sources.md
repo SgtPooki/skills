@@ -17,6 +17,18 @@ circularly derived from AI-generated writing advice.
 - BLUF (US military, formalized 1988) and Minto's Pyramid Principle —
   answer-first structure. NN/g eyetracking (2006, replicated 2017): ~79% of
   web readers scan, reading ~20-28% of a page — front-load everything.
+- Williams, *Style: Lessons in Clarity and Grace*, 1981–2021 — the source
+  Gopen & Swan applied to science: characters as subjects, actions as verbs,
+  cohesion (old-before-new) vs coherence (topic strings), metadiscourse,
+  conditional (not banned) passive and nominalization. Basis of the
+  nominalization fixes in `revision-pass.md`.
+- Lanham, *Revising Prose*, 1979 — the Paramedic Method and the lard factor;
+  the operationalized form of "omit needless words". Basis of
+  `revision-pass.md`.
+- Nielsen & Morkes, "Concise, SCANNABLE, and Objective", 1997 — controlled
+  web-usability experiment: +58% concise, +47% scannable, +27% objective
+  (non-promotional) language, +124% combined. Empirical basis for the
+  no-marketing-language and scannability rules.
 
 ## Plain language (the audience dial)
 
@@ -47,6 +59,14 @@ circularly derived from AI-generated writing advice.
 
 ## Specs and decisions (writing-spec)
 
+- Booth, Colomb & Williams, *The Craft of Research*, 1995 — the argument
+  model (claim → reasons → evidence → warrant → acknowledgment and response)
+  and the problem-statement formula (context + destabilizing condition +
+  cost). Basis of writing-spec's Argument check.
+- Garner, *Legal Writing in Plain English*, 2001, and the Language-Change
+  Index — tabulated conditions for dense conditional logic; graded (not
+  binary) treatment of contested usage. For normative spec language read
+  adversarially.
 - RFC 2119 / RFC 8174 — normative keywords, only when declared.
 - MADR (adr.github.io) — ADR template.
 - EARS (Mavin, RE'09) — requirement syntax for safety-critical-grade
@@ -59,3 +79,20 @@ circularly derived from AI-generated writing advice.
 - Chris Beams, "How to Write a Git Commit Message", 2014 — imperative mood,
   50/72.
 - Conventional Commits; Conventional Comments; Keep a Changelog; SemVer.
+
+## Corroboration, with caveats
+
+Consulted, not rule sources. Strunk & White's durable rules (stress position,
+subject near verb, one topic per paragraph, parallelism) are already here via
+Gopen & Swan and plain language; its grammar folklore is corpus-falsified
+(Pullum, "50 Years of Stupid Grammar Advice", 2009). Pinker's *Sense of
+Style* restates Williams/Gopen & Swan ground from psycholinguistics; its
+classic style (from Thomas & Turner, *Clear and Simple as the Truth*) fits
+tutorials and explanations but is by its own authors' taxonomy wrong for
+reference docs, runbooks, and trackers, where the reader has a job. Graff &
+Birkenstein's *They Say / I Say* supplies the fair-summary and naysayer moves
+behind writing-spec's Argument check (no empirical validation; the literal
+templates are academic register — don't lift them). Le Guin's *Steering the
+Craft* backs the read-aloud test and one-name-per-concept repetition. Becker,
+Sword, and Schimel: hedging as defensive armor, the stated-vs-enacted gap
+that justifies a checker, and the OCAR overclaim guard.

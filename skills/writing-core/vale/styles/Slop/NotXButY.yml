@@ -2,6 +2,8 @@ extends: existence
 message: "Formulaic contrast '%s' (the 'not X, but Y' template). Rewrite as a direct statement."
 level: warning
 ignorecase: true
+# Vale concatenates all raw entries into ONE regex — keep this a single
+# alternation. Splitting it into list items silently breaks every branch.
+# The two-sentence form matches within one line only (literal spaces, not \s).
 raw:
-  - '\bnot (?:just|only|merely) \w[^.\n]{0,60}?\bbut (?:also )?'
-  - "— not [^.\\n]{0,40}, but "
+  - "(?:\\bnot (?:just|only|merely) \\w[^.\\n]{0,60}?\\bbut (?:also )?|— not [^.\\n]{0,40}, but |that['’]s not [^.!?\\n]{1,40}[.!?] +that['’]s (?!why\\b|because\\b))"
