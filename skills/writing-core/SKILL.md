@@ -64,6 +64,15 @@ Default audience dial: spec → expert, docs/github → developer, community →
   symmetrical bullets that give every point equal weight, no headings over
   one-sentence sections. The linter enforces the concrete word list — see
   step 3.
+- **Hedges split two ways.** Epistemic hedges carry information ("untested on
+  Windows", "as of v2.3", "in most configurations") — keep them; deleting one
+  to sound confident is a correctness bug. Reflexive hedges are tics
+  ("arguably", "it could be said") — cut them. Never delete an epistemic hedge
+  to satisfy the linter; rewrite around it.
+
+Before running the checker on a full draft, do the one-pass tightening in
+`references/revision-pass.md` — it fixes mechanically what the linter can only
+flag.
 
 ## 3. Gate before delivering (mandatory)
 
@@ -115,4 +124,6 @@ English-only.
 - `references/reader-mechanics.md` — sentence-level mechanics (Gopen & Swan:
   subject-verb proximity, topic/stress position). Use for specs and long-form
   docs where sentence flow matters.
+- `references/revision-pass.md` — the one-pass tightening procedure (Lanham's
+  Paramedic Method) to run between drafting and the checker.
 - `references/sources.md` — the bibliography behind these rules.

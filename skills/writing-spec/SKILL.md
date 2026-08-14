@@ -31,6 +31,18 @@ Use the MADR skeleton, nothing more:
 One decision per ADR. Number them; never edit a superseded ADR — write a new
 one that references it.
 
+**Argument check** (ADR and RFC modes) — the document itself must answer three
+questions before it goes to the gate:
+
+1. **What happens if we do nothing?** The status quo is the baseline option;
+   a decision with no live alternative didn't need a document.
+2. **Who bears the cost, and what is it?** Stated in Context/Consequences,
+   not implied.
+3. **Who would disagree, and what would they say?** Name the strongest
+   objection and answer it in the text. Fairness test for each rejected
+   option: would its advocate sign off on your one-paragraph summary of it?
+   A caricatured alternative reads as a rigged decision.
+
 ### Requirements mode
 
 - Every requirement must be testable, and every requirement is paired with a

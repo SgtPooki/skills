@@ -17,3 +17,9 @@ the versions this build supports, then pin `schema_version` in the manifest.
 The `--strict` flag rejects unknown keys instead of passing them through. Use it
 in CI. Without it, unknown keys survive the round-trip untouched, which is the
 right default for local experimentation.
+
+## Caching
+
+The cache layer is optional, and most teams keep it enabled. Results are
+memoized per manifest hash, so re-running on an unchanged manifest is free.
+Caching is untested on Windows as of v2.1.

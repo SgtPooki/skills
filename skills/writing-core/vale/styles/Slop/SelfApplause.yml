@@ -1,0 +1,7 @@
+extends: existence
+message: "Self-applause: '%s'. Delete the clause — the point must stand on its own; if it doesn't, strengthen the point, not the applause."
+level: warning
+ignorecase: true
+tokens:
+  - "and that matters"
+  - "which is exactly the point"

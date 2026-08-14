@@ -15,6 +15,12 @@ Additionally, it facilitates seamless integration.
 - Supports quick and painless server deployment for all teams
 - Delivers safe and stable runtime execution for all hosts
 
+## Why it matters
+
+Here's the thing: the cache layer is optional. Let me be clear — the truth is
+most teams never disable it. That's not caching. That's memoization, and that
+matters, which is exactly the point.
+
 ## Summary
 
 In conclusion, this comprehensive library is a testament to modern engineering.
