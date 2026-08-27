@@ -10,7 +10,8 @@ description: >-
   session — and ALWAYS before declaring any non-trivial coding task done.
   Also use when the user mentions refactoring, tech debt, code quality,
   maintainability, "clean this up", or complains that code has gotten messy
-  or bloated over time.
+  or bloated over time — and when sweeping prose you wrote (PR descriptions,
+  commit messages, comments) for Claude-signature vocabulary.
 ---
 
 # Anti-Slop: check your work before deciding you're done
@@ -135,6 +136,11 @@ diff (not just the last edit) and check:
   that only forward arguments.
 - Drift: docstrings/comments/names that describe what the code did two
   iterations ago, not what it does now.
+- Prose slop: comments, docstrings, and the commit/PR text you are about to
+  write, dense with Claude-signature vocabulary ("load-bearing", "quietly",
+  "genuinely", personified code). Two or more signature words in a paragraph
+  → rewrite stating the concrete fact instead. Word list and rewrite rules:
+  `references/prose-slop.md`.
 - Would a fresh implementation of the *current* spec look materially simpler
   than what you have? If clearly yes, your structure has drifted — spend the
   time to converge it now, or (in unattended runs) flag the divergence to
@@ -154,4 +160,5 @@ extra dependency. Use `--json` for machine-readable output.
 
 Details: `references/metrics.md` (what the numbers mean, thresholds, when to
 override) · `references/refactor-triggers.md` (smells, extend-vs-restructure
-decision rules, worked examples).
+decision rules, worked examples) · `references/prose-slop.md`
+(Claude-signature vocabulary to thin out of PR/commit/comment prose).
