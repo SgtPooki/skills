@@ -59,10 +59,16 @@ Default audience dial: spec → expert, docs/github → developer, community →
 
 ## 2. Non-negotiables while drafting
 
-- **BLUF.** The first sentence of the document — and of every section — carries
-  the point. Support follows. Never build up to the conclusion. A descriptive
-  heading itself satisfies BLUF for its section: under `### Impact`, state the
-  impact — don't write a summary sentence that repeats the heading.
+- **BLUF.** In informative artifacts — docs, specs, trackers, announcements —
+  the first sentence of the document, and of every section, carries the point.
+  Support follows. Never build up to the conclusion. A descriptive heading
+  itself satisfies BLUF for its section: under `### Impact`, state the impact —
+  don't write a summary sentence that repeats the heading. One exception: when
+  `writing-marketing` is the **base** scenario, its awareness stages decide
+  where the claim lands, so an opening may withhold the offer instead of
+  leading with it. That exception governs order only — it adds no sections and
+  relaxes nothing else here, least of all the ban on fabricated specifics. A
+  persuasion *pass* over any other base scenario does not get it.
 - **No fabricated specifics.** Every number, date, version, and behavior claim
   must be verified (run it, read the source, or link the authority). If you
   can't source it, cut it or state the uncertainty. Never invent a statistic to
