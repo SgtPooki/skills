@@ -4,9 +4,9 @@ description: >-
   Write project-authored public communication: release notes, announcements,
   changelogs, launch posts, and status updates — text that speaks AS the
   project. Always use with writing-core. Do NOT use for the user's personal
-  posts, replies, or messages (that's their author-voice skill, e.g.
-  my-voice); if the user personally announces project news, use this skill for
-  structure and add the author-voice overlay for idiom.
+  posts, replies, or messages (that's their personal author-voice skill); if
+  the user personally announces project news, use this skill for structure
+  and add the author-voice overlay for idiom.
 ---
 
 # Writing Community

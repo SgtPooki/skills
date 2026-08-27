@@ -6,8 +6,8 @@ description: >-
   write text a human will read (e.g. "write a README", "draft a PR
   description", "write the announcement"). Routes to the correct scenario
   writing skill and enforces the non-negotiables (no AI slop, no fabricated
-  specifics, audience-first). Always use together with exactly one scenario
-  skill; do not use alone unless no scenario skill matches.
+  specifics, audience-first). Always use together with exactly one base
+  scenario skill; do not use alone unless no scenario skill matches.
 ---
 
 # Writing core: route, draft, gate
@@ -16,9 +16,15 @@ description: >-
 
 Answer two questions before drafting:
 
-**Who is the attributed author?** If the text is sent or signed by the user
-personally, add their author-voice skill (e.g. a personal `my-voice` skill) as
-an overlay. If the text speaks for the project or repo, do not.
+**Who is the attributed author?** If the text is sent, signed, or published
+from the user's own account — including project-neutral artifacts like PR
+descriptions and issue bodies — mark their personal author-voice skill (kept
+outside this repo) as active. Active means: gate with its overlay
+flag, and run its edits as the final pass per section 4 — don't blend its
+idiom into the base draft. Its mechanical rules (punctuation, emoji) apply to
+everything they publish; its voice-register rules follow the artifact's
+register. Skip it only for text another account or bot publishes on the
+project's behalf.
 
 **What is the artifact?** Pick exactly one scenario skill:
 
@@ -39,8 +45,9 @@ The community/marketing edge: text that speaks as the project to people who
 already follow it (release note, status update) is `writing-community`; text
 that must convert strangers into users or customers (launch copy, promo
 thread, pitch) is `writing-marketing`. A launch announcement aimed at both
-uses `writing-community` structure with `writing-marketing`'s hook and
-positioning rules.
+defaults to `writing-community` alone; add `writing-marketing` as a
+persuasion pass (section 4) only when the user asks to reach or convert
+strangers with it — never auto-load it at route time.
 
 If unsure: **artifact purpose beats delivery mechanism.** An RFC posted as a
 GitHub issue is an RFC — use `writing-spec`. A security advisory is an
@@ -82,6 +89,10 @@ flag.
 
 ## 3. Gate before delivering (mandatory)
 
+(After a `writing-marketing` persuasion pass, see section 4 step 4 — the base
+scenario stays the checker scenario and the marketing honesty checklist is
+walked manually.)
+
 Run the checker on every draft before presenting it as done. The checker lives
 in this skill's directory — resolve `<writing-core-skill-path>` to wherever
 this SKILL.md is installed (in the skills repo: `skills/writing-core`).
@@ -93,7 +104,7 @@ python3 <writing-core-skill-path>/scripts/writingcheck.py <scenario> path/to/dra
 # ephemeral text (PR body, issue text, commit message) — pipe it:
 echo "$DRAFT" | python3 <writing-core-skill-path>/scripts/writingcheck.py github-writing -
 
-# author-voice overlay active? add: --overlay my-voice
+# author-voice overlay active? add: --overlay author-voice
 ```
 
 `<scenario>` is the scenario skill name (`writing-docs`, `github-writing`,
@@ -115,16 +126,46 @@ obligations. Do not weaken a true claim to satisfy the linter — rewrite the
 sentence instead. Break any rule in this skill sooner than write something
 barbarous.
 
-Scope notes: the checker's built-in `--overlay` supports only `my-voice`
+Scope notes: the checker's built-in `--overlay` supports only `author-voice`
 (single-tenant, not a plugin system). The rules and word lists are
 English-only.
 
-## 4. Precedence
+## 4. Composition and precedence
 
-- The scenario skill owns document structure and section templates.
-- The author-voice overlay, when active, owns punctuation and idiom; its rules
-  win over scenario-skill style on conflict.
-- This skill's non-negotiables (step 2) apply everywhere.
+The skills compose: exactly one scenario skill owns structure, and editing
+passes apply on top of the same draft. "Draft it for GitHub" → "make it a
+little more salesy" → "now do it in my voice" is the intended workflow. Run
+passes in this sequence, as distinct sequential edits — never combined into
+one generation step:
+
+1. **Base scenario** drafts the structure.
+2. **Persuasion pass** (`writing-marketing`) — only when the user explicitly
+   asks for one; see that skill's pass-mode rules.
+3. **Author-voice pass** — when the overlay is active (see step 1 of
+   routing), always last, so idiom and mechanical compliance are final.
+4. **Gate.** The base scenario stays the writingcheck `<scenario>` throughout;
+   add `--overlay author-voice` when the author-voice overlay is active. The
+   checker does NOT run the `Marketing.*` rules in pass mode, so after a
+   persuasion pass also walk writing-marketing's honesty checklist manually
+   (it lives in that skill's pass-mode section — single source).
+
+If the user requests passes out of order (e.g. "salesy" after a voice pass),
+run the requested edit, then repeat the author-voice pass and re-gate — voice
+finishes last. Apply each requested pass once, re-gate, and stop; don't keep
+cycling passes without a new user request.
+
+Precedence when passes conflict, highest to lowest:
+
+1. This skill's non-negotiables (step 2) — no pass may override them.
+2. Base scenario structure and section templates — a persuasion pass edits
+   prose in place and never restructures.
+3. Marketing honesty and specificity rules.
+4. Author-voice punctuation and idiom — wins over scenario and marketing
+   *style*, never over structure, facts, or the honesty rules.
+
+Terminology: "overlay" as a checker flag means only `--overlay author-voice`. A
+persuasion pass is an editing pass, not a checker overlay, and never changes
+`<scenario>`.
 
 ## References (load on demand)
 
