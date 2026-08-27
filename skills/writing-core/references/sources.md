@@ -14,9 +14,17 @@ circularly derived from AI-generated writing advice.
   escape hatch quoted in writing-core.
 - Zinsser, *On Writing Well*, 1976 — cut every needless word; clarity,
   simplicity, humanity.
-- BLUF (US military, formalized 1988) and Minto's Pyramid Principle —
-  answer-first structure. NN/g eyetracking (2006, replicated 2017): ~79% of
-  web readers scan, reading ~20-28% of a page — front-load everything.
+- BLUF (US Army writing standard, AR 25-50) — answer-first structure. Two
+  separate measurements, easily conflated. Nielsen 1997 measured 79% of test
+  users scanning any new page rather than reading word-by-word; see
+  [How Users Read on the Web](https://www.nngroup.com/articles/how-users-read-on-the-web/).
+  Nielsen 2008 measured readers getting through ~20-28% of the words on an
+  average visit, from Weinreich et al.'s 45,237 instrumented page views; see
+  [How Little Do Users Read?](https://www.nngroup.com/articles/how-little-do-users-read/).
+  Neither study is eyetracking. NN/g's F-pattern eyetracking (Nielsen 2006, Pernice 2017) supplies the
+  recommendation itself: put the most important points in the first two
+  paragraphs. It also bounds the claim — the F-pattern is what readers fall
+  back on when a page offers no stronger cues, not how they always read.
 - Williams, *Style: Lessons in Clarity and Grace*, 1981–2021 — the source
   Gopen & Swan applied to science: characters as subjects, actions as verbs,
   cohesion (old-before-new) vs coherence (topic strings), metadiscourse,
@@ -96,6 +104,19 @@ templates are academic register — don't lift them). Le Guin's *Steering the
 Craft* backs the read-aloud test and one-name-per-concept repetition. Becker,
 Sword, and Schimel: hedging as defensive armor, the stated-vs-enacted gap
 that justifies a checker, and the OCAR overclaim guard.
+
+Minto's *Pyramid Principle*, 1973, is the consulting formulation of
+answer-first. Only that component is encoded here, and it reaches these skills
+independently through BLUF and the web-scanning measurements above. The method
+as a whole is not yet supported by controlled empirical studies: a 2026
+preregistration proposing the first such trial (Marx & Hau, PsychArchives,
+[record](https://psycharchives.org/en/item/b4f4cb7e-a812-47e2-aa6d-79580eecdfaa))
+states its effectiveness "has not been examined in controlled empirical
+studies." The remaining machinery — SCQA, MECE, vertical Q&A, deductive and
+inductive purity — is omitted deliberately: the genre templates already in use
+(MADR, Diátaxis, the GitHub shapes, Schwartz's awareness stages) do that work
+better for these artifacts, and MECE pressures agents toward exhaustive-looking
+support they may fabricate.
 
 ## Persuasion and marketing (writing-marketing)
 
