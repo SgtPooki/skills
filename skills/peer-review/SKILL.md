@@ -137,8 +137,8 @@ Examples:
    cd "$REPO_ROOT" && agy -p "Your prompt here" \
      --model "Gemini 3.1 Pro (High)" --dangerously-skip-permissions --print-timeout 8m
 
-   # Long prompts (use stdin — pass `-` as the prompt argument):
-   cd "$REPO_ROOT" && cat "$PROMPT_FILE" | agy -p - \
+   # Long prompts (pass the file content as the argument; agy has no stdin mode for text prompts):
+   cd "$REPO_ROOT" && agy -p "$(cat "$PROMPT_FILE")" \
      --model "Gemini 3.1 Pro (High)" --dangerously-skip-permissions --print-timeout 8m
    ```
    Notes:
@@ -147,13 +147,16 @@ Examples:
      Antigravity"). Use `agy` instead — it's the Antigravity terminal agent and authenticates through the
      Antigravity app. (The `antigravity` command itself is the GUI/Electron IDE launcher, not a headless
      agent — don't use it for reviews.)
-   - `agy -p`/`--print`/`--prompt` runs a single prompt non-interactively and prints the response. `-p -`
-     reads the prompt from stdin (use for long prompts).
+   - `agy -p`/`--print`/`--prompt` runs a single prompt non-interactively and prints the response. It does
+     NOT read a text prompt from stdin: `cat file | agy -p -` sends the literal `-` and gets a generic
+     greeting back. Pass long prompts as `"$(cat "$PROMPT_FILE")"`. (stdin only works with
+     `--input-format stream-json`, which also requires `--output-format stream-json`.)
    - `--dangerously-skip-permissions` auto-approves tool/permission requests so the run doesn't block on a
      prompt; `agy` runs against the current working directory, so `cd "$REPO_ROOT"` first (or pass `--add-dir`).
    - Pick a model with `--model` using its display name from `agy models` (e.g. `"Gemini 3.1 Pro (High)"`,
      `"Gemini 3.5 Flash (High)"`; Claude and GPT-OSS models are also offered). Default is a Flash tier.
-   - Print mode waits up to `--print-timeout` (default 5m); raise it for large diffs/specs.
+   - `--print-timeout` defaults to `0s` (wait until the turn completes). Set one (e.g. `8m`) so a stuck run
+     fails instead of hanging.
 
 6. When running multiple reviews in parallel, use background execution for all Bash calls. Present every completed result even if one review fails.
 
@@ -178,5 +181,5 @@ Examples:
 - All tools may take 1-5 minutes to respond.
 - Specify the feedback type clearly, such as spec completeness, API design, or code quality.
 - `codex exec` requires a git repo unless `--skip-git-repo-check` is passed.
-- Cursor has no stdin mode, so use a temp file for large prompts. Claude and Codex support stdin.
+- Cursor and agy have no stdin mode for text prompts, so pass temp-file content as the argument. Claude and Codex support stdin.
 - Keep the reviewer different from the authoring agent. If Claude wrote the work, review with Cursor or Codex. If Cursor wrote it, review with Claude or Codex.
