@@ -73,6 +73,20 @@ Default audience dial: spec → expert, docs/github → developer, community →
   must be verified (run it, read the source, or link the authority). If you
   can't source it, cut it or state the uncertainty. Never invent a statistic to
   strengthen a point.
+- **No copied specifics.** Fabrication is a claim that was never true; a copy
+  is one that stops being true. A specific that duplicates a live source of
+  truth — a function signature, an enumerated list of bindings or scripts, a
+  parser's current behavior, a dependency version — rots silently, because no
+  test fails when prose drifts from code. Two questions before writing one:
+  *if the code changed, would this line go wrong, and would anything notice?*
+  and *could the reader get it from one file they were going to open anyway?*
+  Point at code; don't copy it ("the address comes from `shared/chain.ts` via
+  `filecoinPayAddress(network)`" survives a refactor; the copied signature does
+  not). Write instead the specifics that have no competing source: traps in
+  external systems (`JSON.stringify(bigint)` throws; D1 has no
+  `BEGIN TRANSACTION`), decisions and the reasoning behind them, and rules
+  about how the system is arranged. Strictest in `AGENTS.md` / `CLAUDE.md`,
+  where a stale line is read as authoritative and acted on rather than checked.
 - **Specificity over vagueness.** "2.3× slower on the p99 path" beats
   "significantly slower". If no specific exists, the claim probably doesn't
   belong.
