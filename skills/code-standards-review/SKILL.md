@@ -161,16 +161,37 @@ the canonical list). Use these lenses, matched one-to-one to its rows:
   interface hiding real functionality — shallow pass-throughs are a smell,
   not a virtue), low coupling, change localization, error handling designed
   as part of the interface (expected outcomes vs bugs; illegal states
-  unrepresentable).
+  unrepresentable). Types are proven by the checker: each new cast (`as`,
+  non-null `!`, `any`) needs a reason no annotation, type guard, or
+  comparison can express, including in tests and mocks. Comments use plain
+  words a newcomer can read; shorthand only the author understands is a
+  finding.
 - **Domain model**: bounded contexts, ubiquitous language, invariants in the
   owning model, vendor terms translated at edges. Weight schema/wire-format/
   public-type changes heaviest — data-model mistakes outlive code mistakes.
+  Ask of every name the diff adds or changes: **does this name make semantic
+  sense — does it say what the thing actually is or does?** A name that
+  describes the return type rather than the behavior, that differs from its
+  sibling by a suffix that is not the real difference, or that promises
+  something the body does not deliver is a finding. When the honest name is
+  hard to find, that is evidence the design is wrong, not just the label:
+  say so. A renamed-but-unchanged concept and a changed-but-unrenamed concept
+  are both drift.
 - **SOLID/DRY/change cost**: consequence-based use only. Flag change-cost and
   knowledge duplication, not acronym violations.
 - **Tests & verification**: changed behavior and public contracts need
   meaningful tests at the cheapest reliable level — and trustworthy ones:
   a test that would not fail if the feature broke, asserts mocks over
-  behavior, or flakes is a finding.
+  behavior, or flakes is a finding. Ask of every test the diff adds or
+  changes: **do we actually need this test?** Keep it only if it would fail
+  when a behavior a caller depends on regresses. Call for deletion when it
+  pins an implementation detail (which internal function emits what, event
+  ordering nobody consumes, an arbitrary split between two units), asserts
+  a message string rather than the structured result behind it, duplicates
+  another test's failure mode, or exists to prove the code does what it was
+  just written to do. A test that encodes a design smell makes the smell
+  harder to remove: name it and say delete. Coverage gaps and surplus tests
+  are both findings — report the surplus by test title.
 - **Security**: authn/authz, input validation, injection, secrets, unsafe
   defaults, dependency/supply-chain surface.
 - **Observability**: new runtime paths need enough logs, metrics, traces, or
@@ -183,6 +204,9 @@ the canonical list). Use these lenses, matched one-to-one to its rows:
   docs, accessibility, and predictable workflows — for human and agent
   contributors both: greppable names, invariants encoded as checks rather
   than prose, and agent/README docs updated when the diff invalidates them.
+  Existing user-facing copy is agreed wording: it stays word for word unless
+  its meaning has significantly changed. Reflowing or re-wrapping copy so the
+  diff reads as a rewrite counts as rewording.
 
 Evaluate all ten dimensions in both modes — quick mode omits the table, not
 the sweep; any `not assessed` dimension must surface in the quick scope note.

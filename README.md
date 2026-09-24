@@ -76,6 +76,22 @@ Audit the developer experience of a library or tool you maintain across four sur
 
 Runs in a **static tier** (docs + source + cheap live probes) by default, or a **fixture tier** (clean-room runs of the published artifact against a testnet) for real TTFS/success/error metrics. Tests the **published artifact** (not monorepo source) to catch DX bugs that hide in the gap between them. Writes a scored `report.md`, deterministic `scorecard.json` (via `scripts/score.mjs`), and a prioritized `remediation-plan.md` to a temp dir (`$TMPDIR/dx-audit/<repo>`), never polluting the audited repo. Detailed P0/P1/P2 checklists, metrics, the 0/1/3/5 rubric with `na`-for-scope handling, report templates, and a CI rollout harness live in `references/`.
 
+### unit-test-quality
+
+Grades unit tests in a diff, PR, or file against NEVER and ALWAYS rules, with extra process checks for AI-written tests. Every finding cites a rule ID, a location, and a fix.
+
+```
+/unit-test-quality review the tests in this PR
+```
+
+### quick-fix
+
+Solves one issue with the smallest correct diff, then loops it through unit-test-quality, code-standards-review, and ponytail-review until nothing is left to resolve. Only then does it open plannotator-review. It never commits or pushes.
+
+```
+/quick-fix 479
+```
+
 ### writing-core (+ writing-docs, writing-spec, writing-community, github-writing, writing-marketing)
 
 A family of writing skills for agent-drafted prose. `writing-core` is the always-on layer: it routes to the right scenario skill, sets the audience dial, and gates every draft through `scripts/writingcheck.py` — a Vale-backed linter (vendored configs, error-only blocking) plus structural checks for AI tells like single-bullet lists and closing summaries.
