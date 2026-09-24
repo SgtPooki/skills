@@ -59,7 +59,27 @@ line for each finding:
   contradicts the spec — `blocker`.
 - **Scope creep**: behavior in the diff nobody asked for — severity by
   consequence (usually `suggestion`; `should-fix` when it touches public
-  contracts or security surface).
+  contracts or security surface). Exported surface counts: a type, function,
+  option, or event the spec did not ask for and nothing consumes is scope
+  creep even when the code behind it is correct.
+
+Two questions the spec axis always asks, because a PR is where both are
+cheapest to fix and most expensive to defer:
+
+- **Do the names make semantic sense?** For every function, type, option,
+  and event the PR adds or renames: does the name say what the thing is or
+  does? Flag names that describe the return type instead of the behavior,
+  that differ from a sibling by a suffix that is not the real difference,
+  or that promise more than the body delivers. If no honest name exists,
+  the design is wrong and the naming finding is really a design finding —
+  say which. Weigh this heaviest on anything the spec makes public.
+- **Do we actually need this test?** For every test the PR adds or changes:
+  would it fail if a behavior a caller depends on regressed? Call for
+  deletion when it pins an implementation detail, asserts prose rather than
+  the structured result behind it, duplicates another test's failure mode,
+  or merely restates what the code was just written to do. Report surplus
+  tests by title alongside missing coverage; a test that encodes a design
+  smell entrenches it, so name that explicitly.
 
 ### 4. Integrate and report
 
