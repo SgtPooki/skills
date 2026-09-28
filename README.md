@@ -92,6 +92,17 @@ Solves one issue with the smallest correct diff, then loops it through unit-test
 /quick-fix 479
 ```
 
+### review-stack
+
+Runs every review skill on one diff and merges the results into one report: reflect and anti-slop first for code written in this session, then code-standards-review (or review-pr for a PR), anorth-review, unit-test-quality, and ponytail-review. It then runs writing-core, anti-slop, and my-voice on the prose. Reviews of someone else's change are report only.
+
+```
+/review-stack           # local diff
+/review-stack 482       # a PR
+```
+
+Needs the skills it routes to installed, including [anorth/agent-skills](https://github.com/anorth/agent-skills) for anorth-review and reflect, and the ponytail plugin.
+
 ### writing-core (+ writing-docs, writing-spec, writing-community, github-writing, writing-marketing)
 
 A family of writing skills for agent-drafted prose. `writing-core` is the always-on layer: it routes to the right scenario skill, sets the audience dial, and gates every draft through `scripts/writingcheck.py` — a Vale-backed linter (vendored configs, error-only blocking) plus structural checks for AI tells like single-bullet lists and closing summaries.
