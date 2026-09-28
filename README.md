@@ -103,6 +103,15 @@ Runs every review skill on one diff and merges the results into one report: refl
 
 Needs the skills it routes to installed, including [anorth/agent-skills](https://github.com/anorth/agent-skills) for anorth-review and reflect, and the ponytail plugin.
 
+### lockfile-merge
+
+Brings a branch up to date with its base when `pnpm-lock.yaml` or `package-lock.json` conflicts: merge the base, take the base's lockfile, regenerate it with `pnpm install` or `npm install`, and finish the merge. It never rebases or hand-edits conflict markers.
+
+```
+"update this branch from main"
+"the lockfile conflicts after merging staging"
+```
+
 ### writing-core (+ writing-docs, writing-spec, writing-community, github-writing, writing-marketing)
 
 A family of writing skills for agent-drafted prose. `writing-core` is the always-on layer: it routes to the right scenario skill, sets the audience dial, and gates every draft through `scripts/writingcheck.py` — a Vale-backed linter (vendored configs, error-only blocking) plus structural checks for AI tells like single-bullet lists and closing summaries.
